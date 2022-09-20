@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Return status of API
+index.py file returns status of API
 """
 
 from api.v1.views import app_views
@@ -10,6 +10,9 @@ from flask import jsonify
 
 @app_views.route('/status')
 def status():
+    """
+    Returns status as a flask response
+    """
     python_dict = {"status": "OK"}
     # The jsonify() returns a flask.Response() object that already has the
     # appropriate content-type header ‘application/json’ for use with json

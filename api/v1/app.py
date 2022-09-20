@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Return status of API
+Create variable app as instance of flask
 """
 from api.v1.views import app_views
 from flask import Flask
