@@ -12,7 +12,7 @@ from models.state import State
 
 @app_views.route('/states/<state_id>/cities', methods=['GET'],
                  strict_slashes=False)
-def all_state_cities():
+def all_state_cities(state_id):
     """
     Retrives all json objects of class City from a defined State
     """
@@ -28,12 +28,12 @@ def all_state_cities():
 @app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
 def id_city(city_id):
     """
-    Retrives a json objects of class City of city_id
+    Retrives a json object from city_id
     """
     obj = storage.get(City, city_id)
     if obj is None:
         abort(404)
-    return (jsonify(obj.to_dict()))
+    return jsonify(obj.to_dict())
 
 
 @app_views.route('/cities/<city_id>', methods=['DELETE'],
@@ -45,7 +45,7 @@ def delete_city(city_id):
     obj = storage.get(City, city_id)
     if obj is None:
         abort(404)
-    obj.delete()
+    storage.delete(obj)
     storage.save()
     return (jsonify({}), 200)
 
@@ -61,10 +61,10 @@ def create_state_city(state_id):
         abort(404)
     obj_data = request.get_json()
     if not obj_data:
-        return (jsonify({"error": "Not a JSON"}), 400)
+        abort(400, 'Not a JSON')
     name = obj_data.get("name")
     if not name:
-        return (jsonify({"error": "Missing name"}), 400)
+        abort(400, 'Missing name')
     obj_data['state_id'] = my_state.id
     new_obj = City(**obj_data)
     new_obj.save()
@@ -78,7 +78,7 @@ def update_city(city_id):
     """
     obj_data = request.get_json()
     if obj_data is None:
-        return (jsonify({"error": "Not a JSON"}), 400)
+        abort(400, 'Not a JSON')
     my_obj = storage.get(City, city_id)
     if my_obj is None:
         abort(404)
@@ -87,4 +87,4 @@ def update_city(city_id):
         if key not in not_updatable:
             setattr(my_obj, key, value)
     my_obj.save()
-    return jsonify(my_obj.to_dict())
+    return (jsonify(my_obj.to_dict()), 200)
