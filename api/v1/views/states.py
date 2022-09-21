@@ -29,7 +29,7 @@ def id_state(state_id):
     obj = storage.get(State, state_id)
     if obj is None:
         abort(404)
-    return jsonify(obj)
+    return (jsonify(obj.to_dict()))
 
 
 @app_views.route('/states/<state_id>', methods=['DELETE'],
@@ -59,7 +59,7 @@ def create_state():
         return (jsonify({"error": "Missing name"}), 400)
     new_obj = State(**obj_data)
     new_obj.save()
-    return (jsonify(state.to_dict()), 201)
+    return (jsonify(new_obj.to_dict()), 201)
 
 
 @app_views.route('/states/<state_id>', methods=["PUT"], strict_slashes=False)
