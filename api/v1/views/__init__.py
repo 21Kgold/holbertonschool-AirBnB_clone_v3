@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-__init__.py file
+__init__.py File
 """
 
 from flask import Blueprint
