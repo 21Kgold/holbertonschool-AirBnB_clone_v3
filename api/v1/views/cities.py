@@ -20,7 +20,7 @@ def all_state_cities():
     if objs is None:
         abort(404)
     list = []
-    for obj in objs..cities:
+    for obj in objs.cities:
         list.append(obj.to_dict())
     return jsonify(list)
 
